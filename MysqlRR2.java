@@ -3,22 +3,19 @@ import java.sql.*;
 
 
 class Variables extends Thread  {
-	String highPriority;
-	String mediumPriority;
-	String lowPriority;
-	String roll;
-	int queryCount,min,max;
-	public Connection hpCon;
-	public Connection mpCon;
-	public Connection lpCon;
-	Statement stmt;
+	static String highPriority = "jdbc:mysql://207.46.134.127:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://168.63.207.217:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
+	static String userName= "thunderbolt";
+	static String roll;
+	static int queryCount,min,max;
+	static public Connection hpCon;
+	static public Connection mpCon;
+	static public Connection lpCon;
+	static Statement stmt;
 
 	Variables(){
-		String highPriority = "jdbc:mysql://207.46.134.127:3306/student?autoReconnect=true&useSSL=false"; 
-		String mediumPriority = "jdbc:mysql://168.63.207.217:3306/student?autoReconnect=true&useSSL=false";
-		String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
-		String userName= "thunderbolt";
-		int queryCount = 0;
+		queryCount = 0;
 		try{	
 			Class.forName("com.mysql.jdbc.Driver");  
 			hpCon=DriverManager.getConnection(highPriority,userName,"");
@@ -52,9 +49,6 @@ class MysqlRR2 extends Variables	{
     		}
 			while(rs.next())  
 				System.out.println(rs.getString("NAME")+" "+rs.getString("REGNO")+" "+rs.getString("MARK01")+" "+rs.getString("MARK02")+" "+rs.getString("MARK03")+" "+rs.getString("MARK04")+rs.getString("MARK05")+" "+rs.getString("TOTAL")+" "+rs.getString("PASS")); 
-		hpCon.close();
-		mpCon.close();
-		lpCon.close();
 		}
 		}catch(Exception e){ System.out.println(e);}
 	}
@@ -65,9 +59,10 @@ class MysqlRR2 extends Variables	{
 	public static void main(String args[]){  
 		long startTime=0l;
 		int noOfThread = 200;
-		MysqlCon t[] =new MysqlCon[noOfThread];
+		MysqlRR2 t[] =new MysqlRR2[noOfThread];
 		for(int l=0;l<noOfThread;l++){
-				t[l]=new MysqlCon();
+				t[l]=new MysqlRR2();
+				System.out.println("Thread started");
 		}	
 		try{  
 			startTime = System.currentTimeMillis();
@@ -83,4 +78,4 @@ class MysqlRR2 extends Variables	{
 	  	System.out.println(elapsedTime);  
 	}  
 }  
-//java -cp .:mysql-connector-java-5.1.41-bin.jar MysqlCon
+//java -cp .:mysql-connector-java-5.1.41-bin.jar MysqlRR2
