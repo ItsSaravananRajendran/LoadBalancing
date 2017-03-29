@@ -8,13 +8,12 @@ class MysqlCon extends Thread{
 	static String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
 	static String userName= "thunderbolt";
 	static int[][] queryCount = new int[5][3];
+	Connection hpCon;
+	Connection mpCon;
+	Connection lpCon;
 
 	public void run(){ 
 		try{
-		Class.forName("com.mysql.jdbc.Driver");  
-		Connection hpCon=DriverManager.getConnection(highPriority,userName,"");
-		Connection mpCon=DriverManager.getConnection(mediumPriority,userName,"");
-		Connection lpCon=DriverManager.getConnection(lowPriority,userName,"");  
 		
 		Random rand = new Random();
 		Random num = new Random();
@@ -57,6 +56,10 @@ class MysqlCon extends Thread{
 
 
 	public static void main(String args[]){  
+		Class.forName("com.mysql.jdbc.Driver");  
+		hpCon=DriverManager.getConnection(highPriority,userName,"");
+		mpCon=DriverManager.getConnection(mediumPriority,userName,"");
+		lpCon=DriverManager.getConnection(lowPriority,userName,"");  
 		long startTime=0l;
 		for(int j=0;j<5;j++){
 			for (int i=0;i<3;i++) {

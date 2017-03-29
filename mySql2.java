@@ -35,14 +35,14 @@ class mySql2 extends Thread{
 			
 			String roll = Integer.toString(n);
 			ResultSet rs;
+			switch(mID){
+				case 0: stmt=lpCon.createStatement();break;
+				case 1: stmt=mpCon.createStatement();break;
+				case 2: stmt=hpCon.createStatement();break; 
+			}		
 			synchronized(this){
      			queryCount[ip][mID]++;
-     			switch(mID){
-					case 0: stmt=lpCon.createStatement();break;
-					case 1: stmt=mpCon.createStatement();break;
-					case 2: stmt=hpCon.createStatement();break; 
-				}	
-				startTime = System.currentTimeMillis();
+     			startTime = System.currentTimeMillis();
      			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
      			stopTime = System.currentTimeMillis();
      			elapsedTime =elapsedTime + stopTime - startTime;
