@@ -11,10 +11,9 @@ class mySql2 extends Thread{
 	static String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
 	static String userName= "thunderbolt";
 	static int[][] queryCount = new int[5][3];
-	static long elapsedTime = 0l;
-	static int query[]=new int[5];  
-	static long startTime[]  = new long[5] ;
-	static long stopTime[]  = new long[5] ;
+	static long elapsedTime = 0l,elapsedTime1 = 0l;
+	static int query=0;  
+	static long startTime = 0l ,stopTime  = 0l;
 
 	public void run(){ 
 		try{
@@ -61,15 +60,15 @@ class mySql2 extends Thread{
 			synchronized(this){
        			queryCount[ip][mID]++;
      			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
-     			//elapsedTime =elapsedTime + stopTime - startTime;
+     			elapsedTime =elapsedTime + stopTime - startTime;
      			queryCount[ip][mID]--;
- 				if(query[ip] % 100 ==0){
-					stopTime[ip] = System.currentTimeMillis();	
-					long elapsedTimeForip = stopTime[ip] - startTime[ip];
-					System.out.println("query["+ip+"] "+query[ip]+ " waiting time "+ elapsedTimeForip );
- 					startTime[ip] = System.currentTimeMillis();
+     			if(query % 100 ==0){
+						stopTime = System.currentTimeMillis();	
+						elapsedTime1 = stopTime - startTime;
+						System.out.println("query "+query+ " waiting time "+ elapsedTime1 );
+     					startTime = System.currentTimeMillis();
 				}
-				query[ip]++;	
+				query++;
     		}
 			//while(rs.next())  
 				//System.out.println(rs.getString("NAME")+" "+rs.getString("REGNO")+" "+rs.getString("MARK01")+" "+rs.getString("MARK02")+" "+rs.getString("MARK03")+" "+rs.getString("MARK04")+rs.getString("MARK05")+" "+rs.getString("TOTAL")+" "+rs.getString("PASS")); 
@@ -86,13 +85,11 @@ class mySql2 extends Thread{
 
 
 	public static void main(String args[]){  
+		long startTime=0l;
 		for(int j=0;j<5;j++){
 			for (int i=0;i<3;i++) {
 				queryCount[j][i]=0;
 			}
-			query[j]=0;
-			startTime[j]=0l;
-			stopTime[j]=0l;
 		}
 		int noOfThread = 200;
 		mySql2 t[] =new mySql2[noOfThread];
@@ -108,9 +105,7 @@ class mySql2 extends Thread{
 				t[l].join();
 			}
 		}catch(Exception e){ System.out.println(e);}
-	  	for (int J =0;J<5;J++ ) {
-	  	  	 System.out.println(" Ip = "+J +", queryCount = "+query[J]);
-	  	  }  
+	  	System.out.println(elapsedTime);  
 	}  
 }  
 //java -cp .:mysql-connector-java-5.1.41-bin.jar MysqlCon//7905148
