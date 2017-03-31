@@ -1,0 +1,84 @@
+query[0] 0 waiting time 1490944575072
+query[1] 0 waiting time 1490944575113
+query[4] 0 waiting time 1490944575146
+query[3] 0 waiting time 1490944575186
+query[2] 0 waiting time 1490944575195
+
+
+query[0] 100 waiting time 4006
+query[4] 100 waiting time 3974
+query[2] 100 waiting time 4301
+query[3] 100 waiting time 4657
+query[1] 200 waiting time 3599
+query[0] 200 waiting time 3478
+query[4] 200 waiting time 3736
+query[2] 200 waiting time 3582
+query[3] 200 waiting time 4263
+query[1] 300 waiting time 3339
+query[4] 300 waiting time 3170
+query[0] 300 waiting time 4526
+query[2] 300 waiting time 4410
+query[3] 300 waiting time 3499
+query[4] 400 waiting time 3646
+query[1] 400 waiting time 4406
+query[0] 400 waiting time 3286
+query[2] 400 waiting time 3720
+query[3] 400 waiting time 3918
+query[4] 500 waiting time 3420
+query[1] 500 waiting time 3897
+query[3] 500 waiting time 3293
+query[2] 500 waiting time 3740
+query[0] 500 waiting time 4637
+query[4] 600 waiting time 3443
+query[1] 600 waiting time 3377
+query[3] 600 waiting time 3995
+query[2] 600 waiting time 3957
+query[0] 600 waiting time 4151
+query[4] 700 waiting time 3370
+query[1] 700 waiting time 3746
+query[2] 700 waiting time 3575
+query[0] 700 waiting time 3395
+query[3] 700 waiting time 4461
+query[4] 800 waiting time 3939
+query[1] 800 waiting time 3786
+query[2] 800 waiting time 3894
+query[0] 800 waiting time 3916
+query[3] 800 waiting time 3682
+query[4] 900 waiting time 3797
+query[1] 900 waiting time 3411
+query[2] 900 waiting time 4072
+query[0] 900 waiting time 4005
+query[4] 1000 waiting time 3255
+query[3] 900 waiting time 4079
+query[1] 1000 waiting time 3923
+query[2] 1000 waiting time 3661
+query[0] 1000 waiting time 3832
+query[4] 1100 waiting time 3718
+query[3] 1000 waiting time 3935
+query[1] 1100 waiting time 3468
+query[2] 1100 waiting time 3575
+query[0] 1100 waiting time 4056
+query[4] 1200 waiting time 4062
+query[3] 1100 waiting time 3765
+query[1] 1200 waiting time 3519
+query[0] 1200 waiting time 3381
+query[2] 1200 waiting time 4159
+query[1] 1300 waiting time 3286
+query[4] 1300 waiting time 3981
+query[3] 1200 waiting time 4020
+query[0] 1300 waiting time 3893
+query[2] 1300 waiting time 3886
+query[1] 1400 waiting time 3663
+query[4] 1400 waiting time 3512
+query[3] 1300 waiting time 3810
+query[2] 1400 waiting time 3190
+query[0] 1400 waiting time 3514
+query[4] 1500 waiting time 3267
+query[1] 1500 waiting time 3891
+query[3] 1400 waiting time 4066
+
+queryCount for Ip = 0 is 1475
+queryCount for Ip = 1 is 1559
+queryCount for Ip = 2 is 1497
+queryCount for Ip = 3 is 1428
+queryCount for Ip = 4 is 1587
