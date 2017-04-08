@@ -1,3 +1,5 @@
+Changing the ip probability does not have any effect in RoundRobin algorithm
+
 query[0] 100 Response time 58404
 query[3] 100 Response time 56893
 query[2] 100 Response time 56871

@@ -113,8 +113,8 @@ class ResponseTimeForEachIp extends Thread{
      			queryCount[ip][mID]--;
 				query[ip]++;
 				System.out.println("IP = "+ip+" server handling the request = "+m);	
-				/*elapsedTimeForip[ip] +=  stopTime - startTime;
- 				if(query[ip] % 100 ==0){
+				elapsedTimeForip[ip] +=  stopTime - startTime;
+ 				/*if(query[ip] % 100 ==0){
 					System.out.println("query["+ip+"] "+query[ip]+ " response time "+ elapsedTimeForip[ip] );
  					elapsedTimeForipAvg[ip]+= elapsedTimeForip[ip];
  					elapsedTimeForip[ip]=0l;
@@ -176,7 +176,7 @@ class ResponseTimeForEachIp extends Thread{
 		No of queries or requests generated for each IP
 		*****************************************************************************/ 
 	  	for (int J =0;J<5;J++ ) {
-	  	  	 System.out.println("queryCount for Ip = "+J +" is "+query[J]+" Average response time for "+(elapsedTimeForipAvg[J]/query[J]));
+	  	  	 System.out.println("queryCount for Ip = "+J +" is "+query[J]+" Average response time for "+(elapsedTimeForip[J]/query[J]));
 	  	  }  
 	}  
 }  
