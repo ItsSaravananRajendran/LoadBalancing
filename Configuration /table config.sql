@@ -34,4 +34,4 @@ use student;
 
 
 
-./mysqlimport --ignore-lines=1 --fields-terminated-by=, --verbose --local  -u thunderbolt -p -h 207.46.129.72 student /home/thunderbolt/Documents/Dept/result.csv
+./mysqlimport --ignore-lines=1 --fields-terminated-by=, --verbose --local  -u thunderbolt -p -h 139.59.39.173 student /home/thunderbolt/gitRepos/DB-retrival/DataSet/result.csv

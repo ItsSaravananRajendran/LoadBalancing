@@ -1,0 +1,6 @@
+(Server )   	Time To process 1000 query in highPriority server is 7429
+(local machine) Average Response time  for 1 query is  830.105
+(Server )   	Time To process 1000 query in mediumPriority server is 12475
+(local machine) Average Response time  for 1 query is  1605.98
+(Server )   	Time To process 1000 query in lowPriority server is 13023
+(local machine) Average Response time  for 1 query is  1651.664

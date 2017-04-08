@@ -15,17 +15,16 @@ class ResponseTimeForEachIp extends Thread{
 	/****************************************************************************
 	 connection variables
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://207.46.134.127:3306/student?autoReconnect=true&useSSL=false"; 
-	static String mediumPriority = "jdbc:mysql://168.63.207.217:3306/student?autoReconnect=true&useSSL=false";
-	static String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
+	static String highPriority = "jdbc:mysql://139.59.39.173:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://139.59.39.135:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://139.59.39.93:3306/student?autoReconnect=true&useSSL=false";
 	static String userName= "thunderbolt";
 	
 	/****************************************************************************
      counter for query from different IP in different machines
 	*****************************************************************************/ 
 	static int[][] queryCount = new int[5][3];
-	static long elapsedTime = 0l;
-	
+
 	/****************************************************************************
 	  counter array for query generated from an IP
 	*****************************************************************************/ 
@@ -34,10 +33,12 @@ class ResponseTimeForEachIp extends Thread{
 	/****************************************************************************
 	 variables to measure the time   
 	*****************************************************************************/ 
-	static long startTime[]  = new long[5] ;
-	static long stopTime[]  = new long[5] ;
+	static long elapsedTimeForip[] = new long[5] ;
+	static long elapsedTimeForipAvg[] = new long[5] ;
+					
 
 	public void run(){ 
+		long startTime ,stopTime;
 		try{
 		Class.forName("com.mysql.jdbc.Driver");  
 		Connection hpCon=DriverManager.getConnection(highPriority,userName,"");
@@ -46,6 +47,7 @@ class ResponseTimeForEachIp extends Thread{
 		Random rand = new Random();
 		Random num = new Random();
 		int min = 1000001,max =1028071;
+		char m='a';
 		for (int i=0;i<50;i++ ) {
 			
 			/****************************************************************************
@@ -61,13 +63,13 @@ class ResponseTimeForEachIp extends Thread{
 			*****************************************************************************/
 			int ip;
 			double  prob = Math.random();
-			if (prob < 0.2){
+			if (prob < 0.5){
 				ip = 0;
-			}else if (prob < 0.4){
+			}else if (prob < 0.7){
 				ip = 1;
-			}else if (prob < 0.6){
+			}else if (prob < 0.85){
 				ip = 2;
-			}else if (prob < 0.8){
+			}else if (prob < 0.93){
 				ip = 3;
 			}else{
 				ip = 4;
@@ -92,9 +94,9 @@ class ResponseTimeForEachIp extends Thread{
 			String roll = Integer.toString(n);
 			ResultSet rs;
 			switch(mID){
-				case 0: stmt=lpCon.createStatement();break;
-				case 1: stmt=mpCon.createStatement();break;
-				case 2: stmt=hpCon.createStatement();break; 
+				case 0: stmt=lpCon.createStatement();m='L';break;
+				case 1: stmt=mpCon.createStatement();m='M';break;
+				case 2: stmt=hpCon.createStatement();m='H';break; 
 			}	
 
 			/****************************************************************************
@@ -105,15 +107,18 @@ class ResponseTimeForEachIp extends Thread{
 			*****************************************************************************/
 			synchronized(this){
        			queryCount[ip][mID]++;
+     			startTime = System.currentTimeMillis();
      			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
+     			stopTime = System.currentTimeMillis();	
      			queryCount[ip][mID]--;
+				query[ip]++;
+				System.out.println("IP = "+ip+" server handling the request = "+m);	
+				/*elapsedTimeForip[ip] +=  stopTime - startTime;
  				if(query[ip] % 100 ==0){
-					stopTime[ip] = System.currentTimeMillis();	
-					long elapsedTimeForip = stopTime[ip] - startTime[ip];
-					System.out.println("query["+ip+"] "+query[ip]+ " waiting time "+ elapsedTimeForip );
- 					startTime[ip] = System.currentTimeMillis();
-				}
-				query[ip]++;	
+					System.out.println("query["+ip+"] "+query[ip]+ " response time "+ elapsedTimeForip[ip] );
+ 					elapsedTimeForipAvg[ip]+= elapsedTimeForip[ip];
+ 					elapsedTimeForip[ip]=0l;
+ 				}*/
     		}
 
 			/****************************************************************************
@@ -127,7 +132,7 @@ class ResponseTimeForEachIp extends Thread{
 		mpCon.close();
 		lpCon.close();			
 		}catch(Exception e){
-		  System.out.println(e);
+		 // System.out.println(e);
 		}
 	}
 
@@ -144,8 +149,8 @@ class ResponseTimeForEachIp extends Thread{
 				queryCount[j][i]=0;
 			}
 			query[j]=0;
-			startTime[j]=0l;
-			stopTime[j]=0l;
+			elapsedTimeForip[j] = 0l;
+			elapsedTimeForipAvg[j]=0l;
 		}
 
 		/****************************************************************************
@@ -171,7 +176,7 @@ class ResponseTimeForEachIp extends Thread{
 		No of queries or requests generated for each IP
 		*****************************************************************************/ 
 	  	for (int J =0;J<5;J++ ) {
-	  	  	 System.out.println(" queryCount for Ip = "+J +" is "+query[J]);
+	  	  	 System.out.println("queryCount for Ip = "+J +" is "+query[J]+" Average response time for "+(elapsedTimeForipAvg[J]/query[J]));
 	  	  }  
 	}  
 }  

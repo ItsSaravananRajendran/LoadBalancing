@@ -13,9 +13,9 @@ class ResponseTimeInRRForEachIP extends Thread{
 	/****************************************************************************
 	 connection variables
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://207.46.134.127:3306/student?autoReconnect=true&useSSL=false"; 
-	static String mediumPriority = "jdbc:mysql://168.63.207.217:3306/student?autoReconnect=true&useSSL=false";
-	static String lowPriority = "jdbc:mysql://168.63.221.124:3306/student?autoReconnect=true&useSSL=false";
+	static String highPriority = "jdbc:mysql://139.59.39.173:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://139.59.39.135:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://139.59.39.93:3306/student?autoReconnect=true&useSSL=false";
 	static String userName= "thunderbolt";
 
 	/****************************************************************************
@@ -86,7 +86,7 @@ class ResponseTimeInRRForEachIP extends Thread{
      			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
      			if(queryCount % 100 ==0){
 						stopTime = System.currentTimeMillis();	
-						elapsedTime =stopTime - startTime;
+						elapsedTime = stopTime - startTime;
 						System.out.println("query "+queryCount+ " waiting time "+elapsedTime);
      					startTime = System.currentTimeMillis();
 				}
