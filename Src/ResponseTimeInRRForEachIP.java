@@ -13,31 +13,34 @@ class ResponseTimeInRRForEachIP extends Thread{
 	/****************************************************************************
 	 connection variables
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://139.59.39.173:3306/student?autoReconnect=true&useSSL=false"; 
-	static String mediumPriority = "jdbc:mysql://139.59.39.135:3306/student?autoReconnect=true&useSSL=false";
-	static String lowPriority = "jdbc:mysql://139.59.39.93:3306/student?autoReconnect=true&useSSL=false";
+	static String highPriority = "jdbc:mysql://139.59.72.32:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://139.59.35.229:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://139.59.35.59:3306/student?autoReconnect=true&useSSL=false";
 	static String userName= "thunderbolt";
 
 	/****************************************************************************
      counter for query from different IP in different machines
 	*****************************************************************************/ 
-	static long queryCount = 0l;
+	static int queryCount = 0;
 
 	/****************************************************************************
 	 variables to measure the time   
 	*****************************************************************************/ 
 	static long elapsedTime = 0l;
-	static long startTime =0l,stopTime =0l;
+		
+	ReentrantLock lock = new ReentrantLock();
 		
 	public void run(){ 
+		long startTime =0l,stopTime =0l;
 		try{
 		Class.forName("com.mysql.jdbc.Driver");  
 		Connection hpCon=DriverManager.getConnection(highPriority,userName,"");
 		Connection mpCon=DriverManager.getConnection(mediumPriority,userName,"");
 		Connection lpCon=DriverManager.getConnection(lowPriority,userName,"");  
 		Random rand = new Random();
-		int min = 1000001,max =1028071;
-		for (int i=0;i<50;i++ ) {
+		int min = 1000001,max =1028071,curr;
+		char m='a';
+		for (int i=0;i<2;i++ ) {
 			
 			/****************************************************************************
 			To generate an random ip, in this case a random number from 0-4 
@@ -71,27 +74,30 @@ class ResponseTimeInRRForEachIP extends Thread{
 			query counter is increment everytime when a query is generated so the next 
 			request will be sent to the next machine.
 			*****************************************************************************/ 
-			switch((int)(queryCount % 3)){
-				case 0: stmt=lpCon.createStatement();break;
-				case 1: stmt=mpCon.createStatement();break;
-				case 2: stmt=hpCon.createStatement();break; 
-			}		
-
+			
 
 			/****************************************************************************
 			This block takes care of sending the request, incrementing the querycounter 
 			received and outputs the time taken to completly every serve 100 request.
 			*****************************************************************************/
-			synchronized(this){
-     			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
-     			if(queryCount % 100 ==0){
-						stopTime = System.currentTimeMillis();	
-						elapsedTime = stopTime - startTime;
-						System.out.println("query "+queryCount+ " waiting time "+elapsedTime);
-     					startTime = System.currentTimeMillis();
+			lock.lock();
+			try{
+				curr = queryCount;
+				switch(curr%3){
+					case 0: stmt=lpCon.createStatement();m='l';break;
+					case 1: stmt=mpCon.createStatement();m='m';break;
+					case 2: stmt=hpCon.createStatement();m='h';break; 
 				}
-       			queryCount++;
-    		}
+				queryCount++;		
+				startTime = System.currentTimeMillis();
+	 			rs=stmt.executeQuery("select * from result where REGNO='\""+roll+"\"'");  
+	 			stopTime = System.currentTimeMillis();
+	 			long var = stopTime - startTime;
+     			elapsedTime+=var;
+				System.out.println(startTime+" query number "+curr +"  IP = "+ip+" server handling the request = "+m+" Response time = "+var);
+			}finally{
+				lock.unlock();
+			}	
 
 
 			/****************************************************************************
@@ -113,7 +119,7 @@ class ResponseTimeInRRForEachIP extends Thread{
 
 	public static void main(String args[]){  
 		long startTime=0l;
-		int noOfThread = 200;
+		int noOfThread = 100;
 
 		/****************************************************************************
 		Initialzation of the counter variables to zero
@@ -136,5 +142,7 @@ class ResponseTimeInRRForEachIP extends Thread{
 		}catch(Exception e){ 
 			System.out.println(e);
 		}
+
+		System.out.println("Average query time is "+(float)elapsedTime/200);
 	}  
 }  
