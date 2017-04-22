@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-class ResponseTimeForEachIp extends Thread{ 
+public class ResponseTimeForEachIp extends Thread{ 
 
 	/****************************************************************************
 	 connection variables
