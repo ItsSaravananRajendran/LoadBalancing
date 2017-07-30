@@ -12,13 +12,15 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ResponseTimeForEachIp extends Thread{ 
 
+	
 	/****************************************************************************
 	 connection variables
+	 enter the IP of the server in their respective position and UserName
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://139.59.72.32:3306/student?autoReconnect=true&useSSL=false"; 
-	static String mediumPriority = "jdbc:mysql://139.59.35.229:3306/student?autoReconnect=true&useSSL=false";
-	static String lowPriority = "jdbc:mysql://139.59.35.59:3306/student?autoReconnect=true&useSSL=false";
-	static String userName= "thunderbolt";
+	static String highPriority = "jdbc:mysql://IP1:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://IP2:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://IP2:3306/student?autoReconnect=true&useSSL=false";
+	static String userName= "Username";
 	
 	/****************************************************************************
      counter for query from different IP in different machines
@@ -48,7 +50,7 @@ public class ResponseTimeForEachIp extends Thread{
 		Random num = new Random();
 		int min = 1000001,max =1028071;
 		char m='a';
-		for (int i=0;i<2;i++ ) {
+		for (int i=0;i<200;i++ ) {
 			
 			/****************************************************************************
 			To generate a random number from min to max
@@ -63,13 +65,13 @@ public class ResponseTimeForEachIp extends Thread{
 			*****************************************************************************/
 			int ip;
 			double  prob = Math.random();
-			if (prob < 0.5){
+			if (prob < 0.2){
 				ip = 0;
-			}else if (prob < 0.7){
+			}else if (prob < 0.4){
 				ip = 1;
-			}else if (prob < 0.85){
+			}else if (prob < 0.6){
 				ip = 2;
-			}else if (prob < 0.92){
+			}else if (prob < 0.8){
 				ip = 3;
 			}else{
 				ip = 4;
@@ -157,7 +159,7 @@ public class ResponseTimeForEachIp extends Thread{
 		/****************************************************************************
 		Creating threads to generate requests
 		*****************************************************************************/ 
-		int noOfThread = 200;
+		int noOfThread = 3;
 		ResponseTimeForEachIp t[] =new ResponseTimeForEachIp[noOfThread];
 		for(int l=0;l<noOfThread;l++){
 				t[l]=new ResponseTimeForEachIp();

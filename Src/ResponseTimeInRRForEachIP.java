@@ -12,11 +12,12 @@ class ResponseTimeInRRForEachIP extends Thread{
 
 	/****************************************************************************
 	 connection variables
+	 enter the IP of the server in their respective position and UserName
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://139.59.72.32:3306/student?autoReconnect=true&useSSL=false"; 
-	static String mediumPriority = "jdbc:mysql://139.59.35.229:3306/student?autoReconnect=true&useSSL=false";
-	static String lowPriority = "jdbc:mysql://139.59.35.59:3306/student?autoReconnect=true&useSSL=false";
-	static String userName= "thunderbolt";
+	static String highPriority = "jdbc:mysql://IP1:3306/student?autoReconnect=true&useSSL=false"; 
+	static String mediumPriority = "jdbc:mysql://IP2:3306/student?autoReconnect=true&useSSL=false";
+	static String lowPriority = "jdbc:mysql://IP2:3306/student?autoReconnect=true&useSSL=false";
+	static String userName= "Username";
 
 	/****************************************************************************
      counter for query from different IP in different machines
@@ -40,7 +41,7 @@ class ResponseTimeInRRForEachIP extends Thread{
 		Random rand = new Random();
 		int min = 1000001,max =1028071,curr;
 		char m='a';
-		for (int i=0;i<2;i++ ) {
+		for (int i=0;i<200;i++ ) {
 			
 			/****************************************************************************
 			To generate an random ip, in this case a random number from 0-4 
@@ -119,7 +120,7 @@ class ResponseTimeInRRForEachIP extends Thread{
 
 	public static void main(String args[]){  
 		long startTime=0l;
-		int noOfThread = 100;
+		int noOfThread = 3;
 
 		/****************************************************************************
 		Initialzation of the counter variables to zero
@@ -143,6 +144,6 @@ class ResponseTimeInRRForEachIP extends Thread{
 			System.out.println(e);
 		}
 
-		System.out.println("Average query time is "+(float)elapsedTime/200);
+		System.out.println("Average query time is "+(float)elapsedTime/queryCount);
 	}  
 }  

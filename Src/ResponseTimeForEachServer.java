@@ -7,12 +7,14 @@ import java.sql.*;
 
 class ResponseTimeForEachServer extends Thread{ 
 
+	
 	/****************************************************************************
 	 connection variables
+	 enter the IP of the server in their respective position and UserName
 	*****************************************************************************/ 
-	static String highPriority = "jdbc:mysql://139.59.39.93:3306/student?autoReconnect=true&useSSL=false"; 
-	static String userName= "thunderbolt";
-
+	static String highPriority = "jdbc:mysql://IP1:3306/student?autoReconnect=true&useSSL=false"; 
+	static String userName= "Username";
+	
 	/****************************************************************************
 	 variables to measure the time   
 	*****************************************************************************/ 
